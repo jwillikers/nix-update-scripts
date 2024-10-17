@@ -20,21 +20,42 @@ Scripts to automatically update a few Nix-related things, like the version of `n
 == Usage
 
 Use Nix to incorporate these scripts in your project.
-Here's an example of how to incorporate this repository's flake as part of your project and run the provided scripts.
+Here's an example of how to incorporate this repository's flake as part of your project so that `nix run` can be used to run the provided scripts.
 
+. Add `nix-update-scripts` to `flake.nix` and include the desired apps in the flake's apps output.
+The following example demonstrates how to do this for the `update-nix-direnv` and `update-nixos-release` apps.
++
 .flake.nix
 [,nix]
 ----
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nix-update-scripts = {
-      url = "github:NixOS/nixpkgs/nixos-unstable";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    flake-utils.url = "github:numtide/flake-utils";
+    nix-update-scripts.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
-  outputs = {};
+  outputs =
+    {
+      self,
+      flake-utils,
+      nix-update-scripts,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      {
+        apps = {
+          inherit (nix-update-scripts.apps.${system}) update-nix-direnv;
+          inherit (nix-update-scripts.apps.${system}) update-nixos-release;
+        };
+      }
+    );
 }
+----
+
+. Now it is possible to run the apps using `nix run` like so.
++
+[,sh]
+----
+nix run '.#update-nix-direnv'
 ----
 
 Examples of how to use these scripts in GitHub Actions can be found in the link:.github/workflows/update-nix-direnv.yaml[update-nix-direnv workflow] and the link:.github/workflows/update-nixos-release.yaml[update-nixos-release workflow].
@@ -92,33 +113,6 @@ direnv allow
 nix run '.#update-nix-direnv'
 ----
 
-=== Just
-
-Many of the necessary tasks for development have dedicated just commands.
-Here is the briefest overview.
-
-. For local development, the `just run` command can be used to run commands after mounting the local directory on the device.
-By default, it it will execute the main.py file, but other commands to `mpremote` can be provided as the first argument.
-+
-[,sh]
-----
-just run
-----
-
-. To update dependencies, run `just update`.
-+
-[,sh]
-----
-just update
-----
-
-. Use `just --list` to list other available tasks.
-+
-[,sh]
-----
-just --list
-----
-
 == See Also
 
 * https://github.com/Mic92/nix-update[nix-update]
@@ -128,13 +122,6 @@ just --list
 
 Contributions in the form of issues, feedback, and even pull requests are welcome.
 Make sure to adhere to the project's link:CODE_OF_CONDUCT.adoc[Code of Conduct].
-
-// == Open Source Software
-
-// This project is built on the hard work of countless open source contributors.
-// Several of these projects are enumerated below.
-
-// * {Asciidoctor_}
 
 == Code of Conduct
 
