@@ -1,0 +1,31 @@
+name: Build update-nix-direnv
+"on":
+  pull_request:
+    branches: ["main"]
+    paths:
+      - .github/workflows/build-update-nix-direnv.yaml
+      - flake.lock
+      - flake.nix
+      - update-nix-direnv.nix
+      - update-nix-direnv.nu
+      - update-nix-direnv-tests.nu
+  push:
+    branches: ["main"]
+    paths:
+      - .github/workflows/build-update-nix-direnv.yaml
+      - flake.lock
+      - flake.nix
+      - update-nix-direnv.nix
+      - update-nix-direnv.nu
+      - update-nix-direnv-tests.nu
+  workflow_dispatch:
+
+jobs:
+  build-update-nix-direnv:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v14
+      - uses: DeterminateSystems/magic-nix-cache-action@v8
+      - name: Build update-nix-direnv
+        run: nix build '.#update-nix-direnv'

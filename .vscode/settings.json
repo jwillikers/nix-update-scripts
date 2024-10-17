@@ -1,0 +1,17 @@
+{
+  "cSpell.words": [
+    "adoc",
+    "Asciidoctor",
+    "autofix",
+    "direnv",
+    "envrc",
+    "ifdef",
+    "ifndef",
+    "justfile",
+    "nixos",
+    "nixpkgs",
+    "ostree"
+  ],
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "nil"
+}
