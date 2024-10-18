@@ -11,6 +11,7 @@
     "nixos",
     "nixpkgs",
     "numtide",
+    "nushell",
     "ostree"
   ],
   "nix.enableLanguageServer": true,
