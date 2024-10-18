@@ -3,19 +3,17 @@ name: Build update-nixos-release
   pull_request:
     branches: ["main"]
     paths:
+      - '**.nix'
       - .github/workflows/build-update-nixos-release.yaml
       - flake.lock
-      - flake.nix
-      - update-nixos-release.nix
       - update-nixos-release.nu
       - update-nixos-release-tests.nu
   push:
     branches: ["main"]
     paths:
+      - '**.nix'
       - .github/workflows/build-update-nixos-release.yaml
       - flake.lock
-      - flake.nix
-      - update-nixos-release.nix
       - update-nixos-release.nu
       - update-nixos-release-tests.nu
   workflow_dispatch:

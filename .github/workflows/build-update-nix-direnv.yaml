@@ -3,19 +3,17 @@ name: Build update-nix-direnv
   pull_request:
     branches: ["main"]
     paths:
+      - '**.nix'
       - .github/workflows/build-update-nix-direnv.yaml
       - flake.lock
-      - flake.nix
-      - update-nix-direnv.nix
       - update-nix-direnv.nu
       - update-nix-direnv-tests.nu
   push:
     branches: ["main"]
     paths:
+      - '**.nix'
       - .github/workflows/build-update-nix-direnv.yaml
       - flake.lock
-      - flake.nix
-      - update-nix-direnv.nix
       - update-nix-direnv.nu
       - update-nix-direnv-tests.nu
   workflow_dispatch:
