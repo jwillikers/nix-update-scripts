@@ -24,14 +24,6 @@
         pkgs = import nixpkgs {
           inherit system overlays;
         };
-        nativeBuildInputs = with pkgs; [
-          asciidoctor
-          fish
-          just
-          lychee
-          nil
-          nushell
-        ];
         treefmt.config = {
           programs = {
             actionlint.enable = true;
@@ -120,8 +112,14 @@
         devShells.default = mkShell {
           inherit (pre-commit) shellHook;
           nativeBuildInputs =
-            nativeBuildInputs
-            ++ [
+            with pkgs;
+            [
+              asciidoctor
+              fish
+              just
+              lychee
+              nil
+              nushell
               treefmtEval.config.build.wrapper
               # Make formatters available for IDE's.
               (lib.attrValues treefmtEval.config.build.programs)
