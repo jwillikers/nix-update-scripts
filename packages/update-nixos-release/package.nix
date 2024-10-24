@@ -1,9 +1,6 @@
-{
-  nushell,
-  stdenv,
-}:
+{ nushell, stdenv }:
 stdenv.mkDerivation {
-  pname = "update-nix-direnv";
+  pname = "update-nixos-release";
   version = "0.1.0";
 
   src = ./.;
@@ -13,13 +10,13 @@ stdenv.mkDerivation {
   buildInputs = [ nushell ];
 
   checkPhase = ''
-    nu update-nix-direnv-tests.nu
+    nu update-nixos-release-tests.nu
   '';
 
   installPhase = ''
     mkdir --parents $out/bin
-    cp update-nix-direnv.nu $out/bin/
+    cp update-nixos-release.nu $out/bin/
   '';
 
-  meta.mainProgram = "update-nix-direnv.nu";
+  meta.mainProgram = "update-nixos-release.nu";
 }
