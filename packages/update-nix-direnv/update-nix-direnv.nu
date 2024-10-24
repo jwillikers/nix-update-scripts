@@ -11,7 +11,7 @@ def get_latest_nix_direnv_version [] [ nothing -> string ] {
 def get_direnvrc_hash [
   version: string # The version of nix-direnv, i.e. 3.0.6
 ] [ nothing -> string ] {
-  http get $"https://raw.githubusercontent.com/nix-community/nix-direnv/($version)/direnvrc" | hash sha256 --binary | encode new-base64
+  http get $"https://raw.githubusercontent.com/nix-community/nix-direnv/($version)/direnvrc" | hash sha256 --binary | encode base64
 }
 
 # Replace the current version of nix-direnv with the given version and update the SHA-256 checksum of the direnvrc file.
