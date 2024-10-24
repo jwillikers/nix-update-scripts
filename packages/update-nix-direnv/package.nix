@@ -1,22 +1,32 @@
-{ nushell, stdenv }:
-stdenv.mkDerivation {
+{
+  lib,
+  nushell,
+  stdenv,
+}:
+let
   pname = "update-nix-direnv";
-  version = "0.1.0";
+in
+if lib.versionOlder nushell.version "0.99" then
+  throw "${pname} is not available for Nushell ${nushell.version}"
+else
+  stdenv.mkDerivation {
+    inherit pname;
+    version = "0.1.0";
 
-  src = ./.;
+    src = ./.;
 
-  doCheck = true;
+    doCheck = true;
 
-  buildInputs = [ nushell ];
+    buildInputs = [ nushell ];
 
-  checkPhase = ''
-    nu update-nix-direnv-tests.nu
-  '';
+    checkPhase = ''
+      nu update-nix-direnv-tests.nu
+    '';
 
-  installPhase = ''
-    mkdir --parents $out/bin
-    cp update-nix-direnv.nu $out/bin/
-  '';
+    installPhase = ''
+      mkdir --parents $out/bin
+      cp update-nix-direnv.nu $out/bin/
+    '';
 
-  meta.mainProgram = "update-nix-direnv.nu";
-}
+    meta.mainProgram = "update-nix-direnv.nu";
+  }

@@ -32,7 +32,7 @@
         pkgs = import nixpkgs { inherit system overlays; };
         unstablePkgs = import nixpkgs-unstable { inherit system overlays; };
         lib = import ./lib { inherit self system; };
-        packages = import ./packages { inherit pkgs unstablePkgs; };
+        packages = import ./packages { pkgs = unstablePkgs; };
         pre-commit = pre-commit-hooks.lib.${system}.run (
           import ./pre-commit-hooks.nix { inherit pkgs treefmtEval; }
         );
