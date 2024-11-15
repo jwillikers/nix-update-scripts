@@ -4,9 +4,9 @@ export def get_latest_nixos_release [date: datetime] [ nothing -> string ] {
     let $date = $date | date to-timezone UTC | date to-record
     let month = (
         (
-            if $date.month < 5 {
+            if $date.month < 6 {
                 11
-            } else if $date.month < 11 {
+            } else if $date.month < 12 {
                 5
             } else {
                 11
@@ -21,7 +21,7 @@ export def get_latest_nixos_release [date: datetime] [ nothing -> string ] {
     )
     let year = (
         (
-            if $date.month < 5 {
+            if $date.month < 6 {
                 $date.year - 1
             } else {
                 $date.year
