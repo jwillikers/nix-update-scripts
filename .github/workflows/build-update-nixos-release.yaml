@@ -6,16 +6,14 @@ name: Build update-nixos-release
       - '**.nix'
       - .github/workflows/build-update-nixos-release.yaml
       - flake.lock
-      - update-nixos-release.nu
-      - update-nixos-release-tests.nu
+      - packages/update-nixos-release/**
   push:
     branches: ["main"]
     paths:
       - '**.nix'
       - .github/workflows/build-update-nixos-release.yaml
       - flake.lock
-      - update-nixos-release.nu
-      - update-nixos-release-tests.nu
+      - packages/update-nixos-release/**
   workflow_dispatch:
 
 jobs:
