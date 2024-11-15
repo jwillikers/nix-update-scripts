@@ -1,7 +1,7 @@
 {
   lib,
   nushell,
-  stdenv,
+  stdenvNoCC,
 }:
 let
   pname = "update-nix-direnv";
@@ -9,7 +9,7 @@ in
 if lib.versionOlder nushell.version "0.99" then
   throw "${pname} is not available for Nushell ${nushell.version}"
 else
-  stdenv.mkDerivation {
+  stdenvNoCC.mkDerivation {
     inherit pname;
     version = "0.1.0";
 

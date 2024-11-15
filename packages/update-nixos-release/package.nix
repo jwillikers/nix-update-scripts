@@ -1,7 +1,7 @@
 {
   lib,
   nushell,
-  stdenv,
+  stdenvNoCC,
 }:
 let
   pname = "update-nixos-release";
@@ -9,7 +9,7 @@ in
 if lib.versionOlder nushell.version "0.94" then
   throw "${pname} is not available for Nushell ${nushell.version}"
 else
-  stdenv.mkDerivation {
+  stdenvNoCC.mkDerivation {
     pname = "update-nixos-release";
     version = "0.1.0";
 
