@@ -55,7 +55,7 @@ The following example demonstrates how to do this for the `update-nix-direnv` an
 +
 [,sh]
 ----
-nix run '.#update-nix-direnv'
+nix run .#update-nix-direnv
 ----
 
 Examples of how to use these scripts in GitHub Actions can be found in the link:.github/workflows/update-nix-direnv.yaml[update-nix-direnv workflow] and the link:.github/workflows/update-nixos-release.yaml[update-nixos-release workflow].
@@ -110,7 +110,7 @@ direnv allow
 +
 [,sh]
 ----
-nix run '.#update-nix-direnv'
+nix run .#update-nix-direnv
 ----
 
 == See Also
