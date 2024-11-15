@@ -58,7 +58,6 @@
               fish
               just
               lychee
-              nil
               unstablePkgs.nushell
               treefmtEval.config.build.wrapper
               # Make formatters available for IDE's.

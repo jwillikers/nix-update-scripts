@@ -6,16 +6,14 @@ name: Build update-nix-direnv
       - '**.nix'
       - .github/workflows/build-update-nix-direnv.yaml
       - flake.lock
-      - update-nix-direnv.nu
-      - update-nix-direnv-tests.nu
+      - packages/update-nix-direnv/**
   push:
     branches: ["main"]
     paths:
       - '**.nix'
       - .github/workflows/build-update-nix-direnv.yaml
       - flake.lock
-      - update-nix-direnv.nu
-      - update-nix-direnv-tests.nu
+      - packages/update-nix-direnv/**
   workflow_dispatch:
 
 jobs:

@@ -8,9 +8,11 @@ def test_get_latest_nixos_release [] {
     for t in [
         [input expected];
         [("2024-12-19" | into datetime) "24.11"]
-        [("2024-11-01" | into datetime) "24.11"]
+        [("2024-11-01" | into datetime) "24.05"]
         [("2024-10-29" | into datetime) "24.05"]
-        [("2024-05-01" | into datetime) "24.05"]
+        [("2024-08-13" | into datetime) "24.05"]
+        [("2024-06-01" | into datetime) "24.05"]
+        [("2024-05-01" | into datetime) "23.11"]
         [("2024-04-28" | into datetime) "23.11"]
         [("2024-04-29" | into datetime) "23.11"]
         [("2024-01-01" | into datetime) "23.11"]

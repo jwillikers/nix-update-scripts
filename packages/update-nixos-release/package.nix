@@ -1,7 +1,7 @@
 {
   lib,
   nushell,
-  stdenv,
+  stdenvNoCC,
 }:
 let
   pname = "update-nixos-release";
@@ -9,7 +9,7 @@ in
 if lib.versionOlder nushell.version "0.94" then
   throw "${pname} is not available for Nushell ${nushell.version}"
 else
-  stdenv.mkDerivation {
+  stdenvNoCC.mkDerivation {
     pname = "update-nixos-release";
     version = "0.1.0";
 
@@ -20,12 +20,15 @@ else
     buildInputs = [ nushell ];
 
     checkPhase = ''
+      runHook preCheck
       nu update-nixos-release-tests.nu
+      runHook postCheck
     '';
 
     installPhase = ''
-      mkdir --parents $out/bin
-      cp update-nixos-release.nu $out/bin/
+      runHook preInstall
+      install -D --mode=0755 --target-directory=$out/bin update-nixos-release.nu
+      runHook postInstall
     '';
 
     meta.mainProgram = "update-nixos-release.nu";
