@@ -11,6 +11,7 @@ check: && format
     yamllint .
     asciidoctor **/*.adoc
     lychee --cache **/*.html
+    nix flake check
 
 alias f := format
 alias fmt := format
@@ -26,13 +27,13 @@ run derivation="update-nix-direnv":
 alias t := test
 
 test:
-    nu update-nix-direnv-tests.nu
-    nu update-nixos-release-tests.nu
+    nu packages/update-nix-direnv/update-nix-direnv-tests.nu
+    nu packages/update-nixos-release/update-nixos-release-tests.nu
 
 alias u := update
 alias up := update
 
 update:
-    nu update-nix-direnv.nu
-    nu update-nixos-release.nu
+    nix run '.#update-nix-direnv'
+    nix run '.#update-nixos-release'
     nix flake update
