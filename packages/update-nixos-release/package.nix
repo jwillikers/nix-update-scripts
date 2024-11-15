@@ -20,12 +20,15 @@ else
     buildInputs = [ nushell ];
 
     checkPhase = ''
+      runHook preCheck
       nu update-nixos-release-tests.nu
+      runHook postCheck
     '';
 
     installPhase = ''
-      mkdir --parents $out/bin
-      cp update-nixos-release.nu $out/bin/
+      runHook preInstall
+      install -D --mode=0755 --target-directory=$out/bin update-nixos-release.nu
+      runHook postInstall
     '';
 
     meta.mainProgram = "update-nixos-release.nu";

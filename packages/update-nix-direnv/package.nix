@@ -20,12 +20,15 @@ else
     buildInputs = [ nushell ];
 
     checkPhase = ''
+      runHook preCheck
       nu update-nix-direnv-tests.nu
+      runHook postCheck
     '';
 
     installPhase = ''
-      mkdir --parents $out/bin
-      cp update-nix-direnv.nu $out/bin/
+      runHook preInstall
+      install -D --mode=0755 --target-directory=$out/bin update-nix-direnv.nu
+      runHook postInstall
     '';
 
     meta.mainProgram = "update-nix-direnv.nu";
