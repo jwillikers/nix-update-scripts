@@ -1,8 +1,7 @@
 {
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
       inputs = {
@@ -20,7 +19,6 @@
       # deadnix: skip
       self,
       nixpkgs,
-      nixpkgs-unstable,
       flake-utils,
       pre-commit-hooks,
       treefmt-nix,
@@ -30,9 +28,8 @@
       let
         overlays = [ ];
         pkgs = import nixpkgs { inherit system overlays; };
-        unstablePkgs = import nixpkgs-unstable { inherit system overlays; };
         lib = import ./lib { inherit self system; };
-        packages = import ./packages { pkgs = unstablePkgs; };
+        packages = import ./packages { inherit pkgs; };
         pre-commit = pre-commit-hooks.lib.${system}.run (
           import ./pre-commit-hooks.nix { inherit pkgs treefmtEval; }
         );
@@ -58,7 +55,7 @@
               fish
               just
               lychee
-              unstablePkgs.nushell
+              nushell
               treefmtEval.config.build.wrapper
               # Make formatters available for IDE's.
               (builtins.attrValues treefmtEval.config.build.programs)
