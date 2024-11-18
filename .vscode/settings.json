@@ -8,6 +8,7 @@
     "ifdef",
     "ifndef",
     "justfile",
+    "jwillikers",
     "nixos",
     "nixpkgs",
     "numtide",

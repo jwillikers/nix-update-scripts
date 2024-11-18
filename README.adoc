@@ -31,7 +31,7 @@ The following example demonstrates how to do this for the `update-nix-direnv` an
 {
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
-    nix-update-scripts.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nix-update-scripts.url = "github:jwillikers/nix-update-scripts";
   };
   outputs =
     {
@@ -43,8 +43,7 @@ The following example demonstrates how to do this for the `update-nix-direnv` an
       system:
       {
         apps = {
-          inherit (nix-update-scripts.apps.${system}) update-nix-direnv;
-          inherit (nix-update-scripts.apps.${system}) update-nixos-release;
+          inherit (nix-update-scripts.apps.${system}) update-nix-direnv update-nixos-release;
         };
       }
     );
