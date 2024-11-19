@@ -46,10 +46,25 @@ export def update_nixos_release_in_flake [
     )
 }
 
+export def update_home_manager_release_in_flake [
+    release: string # Home Manager release, i.e. 24.05
+] [ string -> string ] {
+    (
+        $in | str replace --regex "github:nix-community/home-manager/release-[0-9][0-9]\\.[0-9][0-9]"
+        $"github:nix-community/home-manager/release-($release)"
+    )
+}
+
 def main [
     flake_file: string = "flake.nix" # Path to the flake.nix file to update
 ] {
     let release = get_latest_nixos_release (date now)
-    open $flake_file | update_nixos_release_in_flake $release | $"($in)\n" | save --force $flake_file
+    (
+        open $flake_file |
+        update_nixos_release_in_flake $release |
+        update_home_manager_release_in_flake $release |
+        $"($in)\n" |
+        save --force $flake_file
+    )
     exit 0
 }
