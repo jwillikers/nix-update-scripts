@@ -3,14 +3,11 @@
   nushell,
   stdenvNoCC,
 }:
-let
-  pname = "update-nix-direnv";
-in
 if lib.versionOlder nushell.version "0.99" then
-  throw "${pname} is not available for Nushell ${nushell.version}"
+  throw "update-nix-direnv is not available for Nushell ${nushell.version}"
 else
   stdenvNoCC.mkDerivation {
-    inherit pname;
+    pname = "update-nix-direnv";
     version = "0.1.0";
 
     src = ./.;
