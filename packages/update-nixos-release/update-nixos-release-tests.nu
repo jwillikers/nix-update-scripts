@@ -1,6 +1,7 @@
 #!/usr/bin/env nu
 use update-nixos-release.nu get_latest_nixos_release
 use update-nixos-release.nu update_nixos_release_in_flake
+use update-nixos-release.nu update_home_manager_release_in_flake
 
 use std assert
 
@@ -113,7 +114,7 @@ def test_update_home_manager_release_in_flake [] {
         }
       );' "24.11" '
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager.url = "github:nix-community/home-manager/release-24.11";
   };
@@ -139,7 +140,7 @@ def test_update_home_manager_release_in_flake [] {
         }
       );']
     ] {
-        assert equal ($t.flake | update_nixos_release_in_flake $t.release) $t.expected
+        assert equal ($t.flake | update_home_manager_release_in_flake $t.release) $t.expected
     }
 }
 
