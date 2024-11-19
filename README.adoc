@@ -15,7 +15,7 @@ endif::[]
 :Nix: https://nixos.org/[Nix]
 :nix-direnv: https://github.com/nix-community/nix-direnv[nix-direnv]
 
-Scripts to automatically update a few Nix-related things, like the version of `nix-direnv` in `.envrc` files and the NixOS release in of the `nixpkgs` flake input.
+Scripts to automatically update a few Nix-related things, like the version of `nix-direnv` in `.envrc` files and the NixOS release in the `nixpkgs` and `home-manager` flake inputs.
 
 == Usage
 
