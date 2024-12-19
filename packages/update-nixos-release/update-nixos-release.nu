@@ -63,7 +63,6 @@ def main [
         open $flake_file |
         update_nixos_release_in_flake $release |
         update_home_manager_release_in_flake $release |
-        $"($in)\n" |
         save --force $flake_file
     )
     exit 0
