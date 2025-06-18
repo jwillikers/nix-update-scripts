@@ -144,7 +144,7 @@ def test_update_home_manager_release_in_flake [] {
     }
 }
 
-def main [] [] {
+def main []: [] {
     test_get_latest_nixos_release
     test_update_nixos_release_in_flake
     test_update_home_manager_release_in_flake

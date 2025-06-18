@@ -23,7 +23,7 @@ use flake']
     }
 }
 
-def main [] [] {
+def main []: [] {
     test_update_nix_direnv_in_envrc
     echo "All tests passed!"
 }
