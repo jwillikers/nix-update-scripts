@@ -3,14 +3,14 @@
 # https://github.com/nix-community/nix-direnv
 
 # Get the newest version of nix-direnv.
-def get_latest_nix_direnv_version [] [ nothing -> string ] {
+def get_latest_nix_direnv_version []: nothing -> string {
   http get https://api.github.com/repos/nix-community/nix-direnv/releases/latest | get name
 }
 
 # Get the SHA-256 hash of the direnvrc file for a particular version of nix-direnv.
 def get_direnvrc_hash [
   version: string # The version of nix-direnv, i.e. 3.0.6
-] [ nothing -> string ] {
+]: nothing -> string {
   http get $"https://raw.githubusercontent.com/nix-community/nix-direnv/($version)/direnvrc" | hash sha256 --binary | encode base64
 }
 
@@ -27,7 +27,7 @@ def get_direnvrc_hash [
 export def update_nix_direnv_in_envrc [
   version: string # nix-direnv version, i.e. 3.0.6
   hash: string # The sha256 checksum of the release
-] [ string -> string ] {
+]: string -> string {
   (
     $in
     | str replace --regex "nix_direnv_version [0-9]+\\.[0-9]+\\.[0-9]+"
