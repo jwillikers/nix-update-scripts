@@ -57,7 +57,7 @@ def main [
   )
   let token = (
     if ($token | is-empty) {
-      if ($env.GITHUB_TOKEN | is-not-empty) {
+      if "GITHUB_TOKEN" in $env and ($env.GITHUB_TOKEN | is-not-empty) {
         $env.GITHUB_TOKEN
       }
     } else {
