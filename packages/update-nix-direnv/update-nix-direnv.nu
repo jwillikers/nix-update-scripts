@@ -3,8 +3,15 @@
 # https://github.com/nix-community/nix-direnv
 
 # Get the newest version of nix-direnv.
-def get_latest_nix_direnv_version []: nothing -> string {
-  http get https://api.github.com/repos/nix-community/nix-direnv/releases/latest | get name
+def get_latest_nix_direnv_version [--token: string]: nothing -> string {
+  let headers = (
+    if ($token | is-not-empty) {
+      ["Authorization" $"Bearer ($token)"]
+    } else {
+      []
+    }
+  )
+  http get --headers $headers https://api.github.com/repos/nix-community/nix-direnv/releases/latest | get name
 }
 
 # Get the SHA-256 hash of the direnvrc file for a particular version of nix-direnv.
@@ -39,6 +46,7 @@ export def update_nix_direnv_in_envrc [
 
 def main [
   files: list<path> = [] # A list of `.envrc` files to operate on.
+  --token: string # GitHub authentication token for the GitHub API
 ] {
   let files = (
     if ($files | is-empty) {
@@ -47,8 +55,23 @@ def main [
       $files
     }
   )
+  let token = (
+    if ($token | is-empty) {
+      if ($env.GITHUB_TOKEN | is-not-empty) {
+        $env.GITHUB_TOKEN
+      }
+    } else {
+      $token
+    }
+  )
 
-  let version = get_latest_nix_direnv_version
+  let version = (
+    if ($token | is-not-empty) {
+      get_latest_nix_direnv_version --token $token
+    } else {
+      get_latest_nix_direnv_version
+    }
+  )
   let hash = get_direnvrc_hash $version
 
   for file in $files {
