@@ -19,6 +19,8 @@ def test_get_latest_nixos_release [] {
         [("2024-01-01" | into datetime) "23.11"]
         [("2000-01-01" | into datetime) "99.11"]
         [("2000-06-06" | into datetime) "00.05"]
+        [("2026-11-20" | into datetime) "26.05"]
+        [("2026-12-01" | into datetime) "26.11"]
     ] {
         assert equal (get_latest_nixos_release $t.input) $t.expected
     }
@@ -78,6 +80,9 @@ def test_update_nixos_release_in_flake [] {
           };
         }
       );']
+        ['nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";' "24.11" 'nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";']
+        ['nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05-small";' "24.11" 'nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11-small";']
+        ['nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";' "24.11" 'nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";']
     ] {
         assert equal ($t.flake | update_nixos_release_in_flake $t.release) $t.expected
     }
