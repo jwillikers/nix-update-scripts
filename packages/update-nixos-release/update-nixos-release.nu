@@ -1,7 +1,7 @@
 #!/usr/bin/env nu
 
 export def get_latest_nixos_release [date: datetime]: nothing -> string {
-    let $date = $date | date to-timezone UTC | into record
+    let date = $date | date to-timezone UTC | into record
     let month = (
         (
             if $date.month < 6 {
@@ -41,8 +41,8 @@ export def update_nixos_release_in_flake [
     release: string # NixOS release, i.e. 24.05
 ]: string -> string {
     (
-        $in | str replace --regex "github:NixOS/nixpkgs/nixos-[0-9][0-9]\\.[0-9][0-9]"
-        $"github:NixOS/nixpkgs/nixos-($release)"
+        $in | str replace --all --regex "(github:[Nn][Ii][Xx][Oo][Ss]/nixpkgs/nixos-)[0-9][0-9]\\.[0-9][0-9]"
+        $"${1}($release)"
     )
 }
 
@@ -50,13 +50,13 @@ export def update_home_manager_release_in_flake [
     release: string # Home Manager release, i.e. 24.05
 ]: string -> string {
     (
-        $in | str replace --regex "github:nix-community/home-manager/release-[0-9][0-9]\\.[0-9][0-9]"
+        $in | str replace --all --regex "github:nix-community/home-manager/release-[0-9][0-9]\\.[0-9][0-9]"
         $"github:nix-community/home-manager/release-($release)"
     )
 }
 
 def main [
-    flake_file: string = "flake.nix" # Path to the flake.nix file to update
+    flake_file: path = "flake.nix" # Path to the flake.nix file to update
 ] {
     let release = get_latest_nixos_release (date now)
     (
