@@ -2,11 +2,6 @@ name: Build update-nix-direnv
 "on":
   pull_request:
     branches: ["main"]
-    paths:
-      - '**.nix'
-      - .github/workflows/build-update-nix-direnv.yaml
-      - flake.lock
-      - packages/update-nix-direnv/**
   push:
     branches: ["main"]
     paths:
@@ -16,11 +11,33 @@ name: Build update-nix-direnv
       - packages/update-nix-direnv/**
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   build-update-nix-direnv:
     runs-on: ubuntu-latest
     steps:
+      # Always run this job so that required status checks report on every PR,
+      # but only do the work when relevant files changed.
+      - uses: dorny/paths-filter@v4
+        id: filter
+        if: github.event_name == 'pull_request'
+        with:
+          filters: |
+            relevant:
+              - '**.nix'
+              - .github/workflows/build-update-nix-direnv.yaml
+              - flake.lock
+              - packages/update-nix-direnv/**
+      - name: Determine whether to run
+        id: gate
+        run: echo "run=${{ github.event_name != 'pull_request' || steps.filter.outputs.relevant == 'true' }}" >> "$GITHUB_OUTPUT"
       - uses: actions/checkout@v7
+        if: steps.gate.outputs.run == 'true'
       - uses: DeterminateSystems/nix-installer-action@v23
+        if: steps.gate.outputs.run == 'true'
       - name: Build update-nix-direnv
+        if: steps.gate.outputs.run == 'true'
         run: nix build '.#update-nix-direnv'
